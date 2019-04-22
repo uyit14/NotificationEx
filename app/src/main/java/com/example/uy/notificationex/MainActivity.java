@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.uy.notificationex.helper.NotificationHelper;
+
 import java.util.Random;
 
 import static android.app.Notification.EXTRA_NOTIFICATION_ID;
@@ -30,10 +32,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnNotify = findViewById(R.id.btnNotify);
+        Intent intent = new Intent(this, ResultActivity.class);
+        intent.setAction(Long.toString(System.currentTimeMillis()));
+        //intent.putExtra(Constant.SHOP, shop);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         btnNotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createNotification();
+                NotificationHelper.createNotification(MainActivity.this, "title", "body"
+                        , pendingIntent);
             }
         });
     }
